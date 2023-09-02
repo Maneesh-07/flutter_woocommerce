@@ -6,5 +6,7 @@ class Config {
   static String url = "https://azurdigital.globifyuae.com/wp-json/wc/v3/";
 
   static String customerURL = "customers";
+  
+  static String categoryUrl = 'product/categories';
 
 }
