@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_woocommerce/config.dart';
+import 'package:flutter_woocommerce/models/booking_model.dart';
 import 'package:flutter_woocommerce/models/category_model.dart';
 import 'package:flutter_woocommerce/models/customers.dart';
 
@@ -34,7 +34,7 @@ class APIService {
   }
 
   Future<List<Category>> getCategories() async {
-    List<Category> data = <Category>[];
+    List<Category> data = [];
     try {
       String url = "${Config.key}${Config.categoryUrl}?consumer_key=${Config.key}&consumer_secret=${Config.secret}";
 
@@ -51,4 +51,28 @@ class APIService {
     }
     return data;
   }
+
+  
+// final Dio _dio = Dio();
+
+  Future<List<Product>> getProducts(int count) async {
+  List<Product> products = [];
+  try {
+    String url =
+        "https://devasthanam.com/wp-json/wc/v3/products?consumer_key=${Config.key}&consumer_secret=${Config.secret}&per_page=$count";
+
+    var response = await Dio().get(url,
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+        }));
+    if (response.statusCode == 200) {
+      products =
+          (response.data as List).map((productData) => Product.fromJson(productData)).toList();
+    }
+  } on DioException catch (e) {
+    print(e.response);
+  }
+  return products;
+}
+
 }

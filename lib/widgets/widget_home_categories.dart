@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_woocommerce/models/booking_model.dart';
 import 'package:flutter_woocommerce/models/category_model.dart';
 import 'package:flutter_woocommerce/services/api_services.dart';
 
@@ -21,31 +22,35 @@ class _WidgetCategoriesState extends State<WidgetCategories> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: const Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 10.0,
-                  left: 16,
-                ),
-                child: Text("All categories"),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 4.0,
-                  left: 16,
-                  right: 10.0,
-                ),
-                child: Text("View All"),
-              ),
-            ],
-          )
-        ],
+    return Scaffold(
+      body:FutureBuilder<List<Product>>(
+        future: apiServices.getProducts(35),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            final products = snapshot.data;
+            if (products != null && products.isNotEmpty) {
+              return ListView.builder(
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return ListTile(
+                    title: Text(product.name),
+                    subtitle: Text(product.price),
+                    onTap: () {
+                      // Handle item tap here
+                    },
+                  );
+                },
+              );
+            } else {
+              return Text('No products available.');
+            }
+          }
+        },
       ),
     );
   }

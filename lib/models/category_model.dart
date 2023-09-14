@@ -18,7 +18,7 @@ class Category {
     categoryName = json['name'];
     categoryDesc = json['description'];
     parent = json['parent'];
-    image = json['image'] != null ? Image.fromJson(json['image']) : null; // Remove non-null assertion
+    image = json['image'] != null ? Image.fromJson(json['image']) : null; 
   }
 }
 

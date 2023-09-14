@@ -38,6 +38,12 @@ dependencies:
   # carousel_slider: ^4.2.1
   carousel_nullsafety: ^0.1.1
   cached_network_image: ^3.2.3
+  http: ^1.1.0
+  csc_picker: ^0.2.7
+  google_fonts: ^5.1.0
+  provider: ^6.0.5
+  get: ^4.6.5
+  flutter_vector_icons: ^2.0.0
 
 dev_dependencies:
   flutter_test:
